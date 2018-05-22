@@ -60,7 +60,7 @@ __global__ void cu_eigen_mtests(Matrix10x10 *min,
     mout[id] = min[id].transpose();
     mout[id].row(9) = Eigen::Matrix<Matrix10x10::value_type, 1, 10>::Zero();
 
-    mout[id].llt();
+//    mout[id].llt();
 //    Eigen::LLT<Matrix10x10> llt = mout[id].llt();
 }
 
