@@ -60,14 +60,15 @@ int main() {
     cudaMemcpy(c, d_c, n*sizeof(Matrix10x10), cudaMemcpyDeviceToHost);
     cudaMemcpy(d, d_d, n*sizeof(Matrix10x10), cudaMemcpyDeviceToHost);
 
-    for (auto i=0; i<n; i++) 
-        if (i%10 == 0) {
-            std::cout << "c[" << i << "]" << std::endl
-                << c[i] << std::endl;
+    for (auto i=0; i<n; i++) {
+      if (i%10 == 0) {
+        std::cout << "c[" << i << "]" << std::endl
+            << c[i] << std::endl;
 
-            std::cout << "d[" << i << "] = "  << std::endl
-                << d[i] << std::endl;
-        }
+        std::cout << "d[" << i << "] = "  << std::endl
+            << d[i] << std::endl;
+      }
+    }
 
     cudaFree( d_a );
     cudaFree( d_b );
