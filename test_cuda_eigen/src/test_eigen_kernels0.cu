@@ -77,6 +77,21 @@ void eigen_vector_dot(Eigen::Vector3d* va,
     cu_eigen_vdot<<<n, 1>>>(va, vb, vc);
 }
 
+/* vector multiplication for eigen */
+
+__global__ void cu_eigen_vmult(Eigen::Vector3d* va, 
+							Eigen::Vector3d* vb,
+							Eigen::Vector3d* vc) {
+	int id = blockIdx.x;
+	vc[id] = va[id] * vb[id];
+}
+
+void eigen_vector_mult(Eigen::Vector3d* va,
+					Eigen::Vector3d* vb,
+					Eigen::Vector3d* vc, int const n) {
+	cu_eigen_vmult<<<n, 1>>>(va, vb, vc);
+}
+
 //
 // matrix addition with eigen
 //
