@@ -101,12 +101,8 @@ void eigen_matrix_add(Matrix10x10* ma,
 __global__ void cu_eigen_mtests(Matrix10x10 *min,
                                 Matrix10x10 *mout) {
     int id = blockIdx.x;
-    // test transposition
-    mout[id] = min[id].transpose();
-    mout[id].row(9) = Eigen::Matrix<Matrix10x10::value_type, 1, 10>::Zero();
-
-//    mout[id].llt();
-//    Eigen::LLT<Matrix10x10> llt = mout[id].llt();
+    auto llt  = min[id].llt();
+    mout[id] = llt.matrixLLT();
 }
 
 void eigen_matrix_tests(Matrix10x10 *min,

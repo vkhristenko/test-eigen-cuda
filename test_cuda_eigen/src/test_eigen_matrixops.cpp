@@ -60,15 +60,26 @@ int main() {
     cudaMemcpy(c, d_c, n*sizeof(Matrix10x10), cudaMemcpyDeviceToHost);
     cudaMemcpy(d, d_d, n*sizeof(Matrix10x10), cudaMemcpyDeviceToHost);
 
+    auto sum = 0;
     for (auto i=0; i<n; i++) {
-      if (i%10 == 0) {
-        std::cout << "c[" << i << "]" << std::endl
-            << c[i] << std::endl;
-
-        std::cout << "d[" << i << "] = "  << std::endl
-            << d[i] << std::endl;
-      }
+        auto m = a[i].llt().matrixLLT();
+        if (d[i].isApprox(m)) {
+            std::cout << "matrix i=" << i << " is properly decomposed" << std::endl;
+            std::cout 
+                << m
+                << std::endl
+                << "---------------------------------------------------------------------\n"
+                << d[i]
+                << std::endl;
+            sum++;
+        }
+        else
+            std::cout << "matrix i=" << i << " is not properly decomposed" << std::endl;
     }
+
+    if (sum == n)
+        std::cout << "test passed!" << std::endl;
+    assert(sum == n && "tests did not pass");
 
     cudaFree( d_a );
     cudaFree( d_b );
