@@ -111,6 +111,20 @@ __global__ void cu_eigen_optest_0(Matrix10x10 *in, Matrix10x10 *out) {
     out[idx] = llt.matrixLLT();
 }
 
+__global__ void cu_eigen_optest_1(Matrix10x10 *in, Matrix10x10 *out) {
+    int idx = blockIdx.x;
+    printf("111\n");
+    Matrix10x10 llt = in[idx].llt().matrixL().solve(in[idx]);
+//    llt.xxx();
+    printf("222\n");
+//    out[idx] = llt;
+    printf("333\n");
+}
+
+void eigen_optest_1(Matrix10x10 *in, Matrix10x10 *out, int n) {
+    cu_eigen_optest_1<<<n, 1>>>(in, out);
+}
+
 void eigen_optest_0(Matrix10x10 *in, Matrix10x10 *out, int n) {
     cu_eigen_optest_0<<<n, 1>>>(in, out);
 }

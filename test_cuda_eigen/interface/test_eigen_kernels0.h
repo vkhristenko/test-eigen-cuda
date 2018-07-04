@@ -21,5 +21,6 @@ void eigen_matrix_add(Matrix10x10*, Matrix10x10*, Matrix10x10*, int const);
 void eigen_matrix_tests(Matrix10x10*, Matrix10x10*, int const);
 
 void eigen_optest_0(Matrix10x10 *, Matrix10x10 *, int);
+void eigen_optest_1(Matrix10x10 *, Matrix10x10 *, int);
 
 #endif // execs_test_cuda_interface_test_kernels0_h
