@@ -17,7 +17,7 @@ int main() {
     std::cout << "nDevices = " << nDevices << std::endl;
 
     int constexpr n = 100;
-    auto lambda_1in1out = [n, nrows, ncols](std::function<void(Matrix10x10*, Matrix10x10*, int)> kernel_launch,
+    auto lambda_1in1out = [n](std::function<void(Matrix10x10*, Matrix10x10*, int)> kernel_launch,
                                             std::function<Matrix10x10(Matrix10x10&)> transform,
                                             std::string && name) {
         Matrix10x10 a[n], b[n];
@@ -31,22 +31,23 @@ int main() {
 
         cudaMemcpy(d_a, a, n * sizeof(Matrix10x10), cudaMemcpyHostToDevice);
 
-        func(a, b, n);
+        kernel_launch(d_a, d_b, n);
 
         cudaDeviceSynchronize();
         cudaError err = cudaGetLastError();
         if (err != cudaSuccess) {
             std::cout << "cuda eror!" << std::endl
                       << cudaGetErrorString(err) << std::endl;
+            assert(false);
         }
 
-        cudaMemcpy(b, d_b, n * sizeof(Matrix10x10, cudaMemcpyDeviceToHost));
+        cudaMemcpy(b, d_b, n * sizeof(Matrix10x10), cudaMemcpyDeviceToHost);
 
         // check
         auto sum = 0;
         for (auto i=0; i<n; i++) {
-            auto m = transform(a);
-            if (b.isApprox(m)) {
+            auto m = transform(a[i]);
+            if (b[i].isApprox(m)) {
                 std::cout << "case " << i 
                           << m
                           << std::endl
@@ -61,15 +62,15 @@ int main() {
         cudaFree(d_b);
 
         if (sum == n)
-            std::cout << "test passed" << std::endl;
+            std::cout << "test " + name + " passed" << std::endl;
         else
-            assert(sum == n && "test " + name.c_str() + " did not pass");
+            assert(sum == n && std::string("test " + name + " did not pass").c_str());
     };
 
     lambda_1in1out(
         [](Matrix10x10* a, Matrix10x10* b, int n) { eigen_optest_0(a, b, n); },
-        [](Matrix10x10(Matrix10x10& m) { return m.llt().matrixLLT(); }),
+        [](Matrix10x10& m) -> Matrix10x10 { return m.llt().matrixLLT(); },
         std::string("cholesky")
-    )
+    );
 #endif // USE_CUDA
 }

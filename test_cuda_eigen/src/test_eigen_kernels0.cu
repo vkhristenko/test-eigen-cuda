@@ -105,8 +105,10 @@ __global__ void cu_eigen_mtests(Matrix10x10 *min,
     mout[id] = llt.matrixLLT();
 }
 
-__global__ void cu_eigen_optest_0(Matrix10x10 *min, Matrix10x10 *mout) {
+__global__ void cu_eigen_optest_0(Matrix10x10 *in, Matrix10x10 *out) {
     int idx = blockIdx.x;
+    auto llt = in[idx].llt();
+    out[idx] = llt.matrixLLT();
 }
 
 void eigen_optest_0(Matrix10x10 *in, Matrix10x10 *out, int n) {
