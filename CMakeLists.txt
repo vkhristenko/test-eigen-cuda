@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.8.0)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
 # project name
 project(test-eigen-cuda)
 
@@ -18,6 +20,8 @@ include_directories(${EIGEN_HOME} SYSTEM)
 if (CUDA_FOUND)
     cuda_include_directories(${EIGEN_HOME})
 endif()
+
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -g -G" )
 
 # always follow the source tree for inclusions ( a la cmssw)
 include_directories(${PROJECT_SOURCE_DIR})

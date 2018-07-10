@@ -114,7 +114,8 @@ __global__ void cu_eigen_optest_0(Matrix10x10 *in, Matrix10x10 *out) {
 __global__ void cu_eigen_optest_1(Matrix10x10 *in, Matrix10x10 *out) {
     int idx = blockIdx.x;
     printf("111\n");
-    Matrix10x10 llt = in[idx].llt().matrixL().solve(in[idx]);
+    auto llt = in[idx].llt().matrixL().solve(in[idx]);
+    Matrix10x10 x = llt;
 //    llt.xxx();
     printf("222\n");
 //    out[idx] = llt;
