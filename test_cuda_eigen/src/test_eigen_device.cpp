@@ -91,5 +91,10 @@ int main() {
         [](Matrix10x10& m) -> Matrix10x10 { return m.llt().matrixL().solve(m); },
         std::string("matrixL")
     );
+    lambda_1in1out(
+        [](Matrix10x10* a, Matrix10x10 *b, int n) { eigen_optest_2(a, b, n); },
+        [](Matrix10x10& m) -> Matrix10x10 { return m.ldlt().solve(m); },
+        std::string("LDLT")
+    );
 #endif // USE_CUDA
 }
