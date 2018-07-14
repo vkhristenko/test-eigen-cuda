@@ -3,6 +3,7 @@
 
 #include <Eigen/Cholesky>
 #include <Eigen/Dense>
+#include <Eigen/QR>
 
 int constexpr nrows = 10;
 int constexpr ncols = 10;
@@ -23,5 +24,6 @@ void eigen_matrix_tests(Matrix10x10*, Matrix10x10*, int const);
 void eigen_optest_0(Matrix10x10 *, Matrix10x10 *, int);
 void eigen_optest_1(Matrix10x10 *, Matrix10x10 *, int);
 void eigen_optest_2(Matrix10x10 *, Matrix10x10 *, int);
+void eigen_optest_3(Matrix10x10 *, Matrix10x10 *, int);
 
 #endif // execs_test_cuda_interface_test_kernels0_h

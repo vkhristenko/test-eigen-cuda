@@ -50,12 +50,15 @@ int main() {
         for (auto i=0; i<n; i++) {
             auto m = transform(a[i]);
             if (b[i].isApprox(m)) {
-                /*std::cout << "case " << i 
+#ifdef DEBUG
+                std::cout << "case " << i 
                           << m
                           << std::endl
                           << "--------------------------------------------------------"
+                          << std::endl
                           << b[i]
-                          << std::endl;*/
+                          << std::endl;
+#endif
                 sum++;
             } else {
                 std::cout << "case " << i
@@ -95,6 +98,11 @@ int main() {
         [](Matrix10x10* a, Matrix10x10 *b, int n) { eigen_optest_2(a, b, n); },
         [](Matrix10x10& m) -> Matrix10x10 { return m.ldlt().solve(m); },
         std::string("LDLT")
+    );
+    lambda_1in1out(
+        [](Matrix10x10* a, Matrix10x10 *b, int n) { eigen_optest_3(a, b, n); },
+        [](Matrix10x10& m) -> Matrix10x10 { return m.colPivHouseholderQr().solve(m); },
+        std::string("QR")
     );
 #endif // USE_CUDA
 }

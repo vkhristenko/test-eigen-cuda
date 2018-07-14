@@ -21,6 +21,10 @@ if (CUDA_FOUND)
     cuda_include_directories(${EIGEN_HOME})
 endif()
 
+if (DEBUG)
+    add_definitions(-DDEBUG)
+endif()
+
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -g -G" )
 
 # always follow the source tree for inclusions ( a la cmssw)

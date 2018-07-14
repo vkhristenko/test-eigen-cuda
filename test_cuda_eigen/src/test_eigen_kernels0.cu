@@ -141,6 +141,14 @@ __global__ void cu_eigen_optest_2(Matrix10x10 *in, Matrix10x10 *out, int n) {
     }
 }
 
+__global__ void cu_eigen_optest_3(Matrix10x10 *in, Matrix10x10 *out, int n) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (idx < n) {
+         out[idx] = in[idx].colPivHouseholderQr().solve(in[idx]);
+    }
+}
+
 void eigen_optest_1(Matrix10x10 *in, Matrix10x10 *out, int n) {
     cu_eigen_optest_1<<<n, 1>>>(in, out, n);
 }
@@ -151,6 +159,10 @@ void eigen_optest_0(Matrix10x10 *in, Matrix10x10 *out, int n) {
 
 void eigen_optest_2(Matrix10x10 *in, Matrix10x10 *out, int n) {
     cu_eigen_optest_2<<<n,1>>>(in, out, n);
+}
+
+void eigen_optest_3(Matrix10x10 *in, Matrix10x10 *out, int n) {
+    cu_eigen_optest_3<<<n,1>>>(in, out, n);
 }
 
 void eigen_matrix_tests(Matrix10x10 *min,
